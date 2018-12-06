@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/01 18:22:56 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/01 18:35:25 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/06 19:01:15 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	if (!content)
 	{
 		res->content = NULL;
-		res->content_size = 0;
+		res->content_size = content_size;
 	}
 	else
 	{
