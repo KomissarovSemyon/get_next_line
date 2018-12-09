@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strmjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/06 13:16:42 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/09 12:11:31 by amerlon-         ###   ########.fr       */
+/*   Created: 2018/12/09 12:50:36 by amerlon-          #+#    #+#             */
+/*   Updated: 2018/12/09 12:50:48 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 32
+#include "libft.h"
 
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-# include "libft/libft.h"
-
-typedef struct		s_file
+char	*ft_strmjoin(char *s1, char *s2)
 {
-	int				fd;
-	char			*buffer;
-	struct s_file	*next;
-}					t_file;
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strjoin("", s2));
+	if (!s2)
+		return (ft_strjoin(s1, ""));
+	return (ft_strjoin(s1, s2));
+}
