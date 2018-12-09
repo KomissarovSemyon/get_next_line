@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 12:24:33 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/09 17:11:02 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/09 18:26:47 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static t_file	*ft_get_file(int fd, t_file **head)
 	return (now->next);
 }
 
-static void		ft_delfile(int fd, t_file **head)
+static int		ft_delfile(int fd, t_file **head)
 {
 	t_file	*now;
 	t_file	*prev;
 
 	if (fd < 0 || !head || !(*head))
-		return ;
+		return (0);
 	prev = NULL;
 	now = *head;
 	while (now)
@@ -68,11 +68,12 @@ static void		ft_delfile(int fd, t_file **head)
 			if (prev)
 				prev->next = now->next;
 			free(now);
-			return ;
+			return (0);
 		}
 		prev = now;
 		now = now->next;
 	}
+	return (0);
 }
 
 static int		ft_get_line(t_file *file, char **line, t_file **head)
@@ -97,10 +98,12 @@ static int		ft_get_line(t_file *file, char **line, t_file **head)
 		free(file->buffer);
 		file->buffer = *line;
 	}
-	size = ft_strchr(file->buffer, '\n') - file->buffer + 1;
-	file->buffer = ft_strshift(&(file->buffer), size);
 	if (len == 0)
+		return (ft_delfile(file->fd, head));
+	size = ft_strchr(file->buffer, '\n') - file->buffer + 1;
+	if (size < 0)
 		return (0);
+	file->buffer = ft_strshift(&(file->buffer), size);
 	return (1);
 }
 
