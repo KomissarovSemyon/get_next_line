@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 12:24:33 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/09 18:26:47 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/11 22:22:40 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,48 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-static t_file	*ft_newfile(int fd)
+static t_list	*get_file(int fd, t_list **head)
 {
-	t_file	*res;
+	t_list	*now;
 
-	res = (t_file *)malloc(sizeof(t_file));
-	if (!res)
-		return (NULL);
-	res->fd = fd;
-	res->buffer = NULL;
-	res->next = NULL;
-	return (res);
-}
-
-static t_file	*ft_get_file(int fd, t_file **head)
-{
-	t_file	*now;
-
-	if (fd < 0 || !head)
+	if (!head || fd < 0)
 		return (NULL);
 	if (!(*head))
 	{
-		*head = ft_newfile(fd);
+		*head = ft_lstnew("", fd);
 		return (*head);
 	}
 	now = *head;
-	while (now->next)
+	while (now)
 	{
-		if (now->fd == fd)
+		if (now->content_size == (size_t) fd)
 			return (now);
 		now = now->next;
 	}
-	if (now->fd == fd)
-		return (now);
-	now->next = ft_newfile(fd);
-	return (now->next);
+	now = ft_lstnew("", fd);
+	if (!now)
+		return (NULL);
+	ft_lstadd(head, now);
+	return (*head);
 }
 
-static int		ft_delfile(int fd, t_file **head)
+static int	ft_lstdelfile(t_list **head, int fd)
 {
-	t_file	*now;
-	t_file	*prev;
+	t_list	*now;
+	t_list	*prev;
 
-	if (fd < 0 || !head || !(*head))
+	if (!head || !(*head) || fd < 0)
 		return (0);
-	prev = NULL;
 	now = *head;
+	prev = NULL;
 	while (now)
 	{
-		if (now->fd == fd)
+		if (now->content_size == (size_t)fd)
 		{
-			now->buffer != NULL ? free(now->buffer) : (0);
-			if (prev)
-				prev->next = now->next;
-			free(now);
+			//free(now->content);
+			//if (prev)
+			// 	prev->next = now->next;
+			// free(now);
 			return (0);
 		}
 		prev = now;
@@ -76,60 +64,40 @@ static int		ft_delfile(int fd, t_file **head)
 	return (0);
 }
 
-static int		ft_get_line(t_file *file, char **line, t_file **head)
+int				get_next_line(const int fd, char **line)
 {
-	char	buff[BUFF_SIZE + 1];
-	int		len;
-	int		size;
+	static t_list	*head;
+	t_list			*file;
+	char			buff[BUFF_SIZE + 1];
+	int				len;
 
-	if (!file || !line)
+	if (fd < 0 || !line || (read(fd, buff, 0) < 0))
 		return (-1);
-	len = -1;
-	while (!(*line = ft_copyuntil(file->buffer, '\n')) && len)
+	len = 1;
+	file = get_file(fd, &head);
+	while (!(ft_strchr_safe(file->content, '\n')) && len)
 	{
-		len = read(file->fd, buff, BUFF_SIZE);
-		if (len == -1)
-		{
-			ft_delfile(file->fd, head);
-			return (len);
-		}
+		line ? ft_strdel(line) : (0);
+		len = read(file->content_size, buff, BUFF_SIZE);
 		buff[len] = '\0';
-		*line = ft_strmjoin(file->buffer, buff);
-		free(file->buffer);
-		file->buffer = *line;
+		*line = ft_strjoin((char *)(file->content), buff);
+		ft_strdel((char **)&(file->content));
+		file->content = ft_strdup_safe(*line);
 	}
-	if (len == 0)
-		return (ft_delfile(file->fd, head));
-	size = ft_strchr(file->buffer, '\n') - file->buffer + 1;
-	if (size < 0)
-		return (0);
-	file->buffer = ft_strshift(&(file->buffer), size);
-	return (1);
-}
-
-int		get_next_line(const int fd, char **line)
-{
-	t_file	*file;
-	static t_file	*head = NULL;
-
-	if (fd < 0 || !line)
-		return (-1);
-	if (!(file = ft_get_file(fd, &head)))
-		return (-1);
-	return (ft_get_line(file, line, &head));
-}
-
-int	main(void)
-{
-	int		fd = open("test1.txt", O_RDONLY);
-	char	*line;
-	// get_next_line(fd, &line);
-	// printf("%s\n", line);
-	while (get_next_line(fd, &line))
+	if (ft_strchr_safe(file->content, '\n'))
 	{
-		printf("%s\n", line);
-		free(line);
+		ft_strdel(line);
+		*line = ft_copyuntil(file->content, '\n');
+		file->content = ft_strshift((char **)&(file->content),
+			ft_strchr(file->content, '\n') - (char *)(file->content) + 1);
+		return (1);
 	}
-	close(fd);
-	return (0);
+	if (file->content && !len)
+	{
+		if (((char *)(file->content))[0] == '\0')
+			return (ft_lstdelfile(&head, fd));
+		ft_strdel((char **)&(file->content));
+		return (1);
+	}
+	return (ft_lstdelfile(&head, fd));
 }

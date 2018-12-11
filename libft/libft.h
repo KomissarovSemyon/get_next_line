@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 23:21:11 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/09 12:51:24 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/11 19:35:58 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 **	char	*ft_strjoinch(char **str, char c) : appends char to string
 **	char	*ft_copyuntil(char *str, int c) : copys until meets char
 **	char	*ft_strmjoin(char *s1, char *s2) : can join NULLs
+**	char	*ft_strchr_safe(const char *s, int c) : safe strchr
+**	char	*ft_strdup_safe(const char *s1) : safe strdup
 **
 **	void	ft_iloveyoupeer(void) : expressing my love for peer ^_^
 */
@@ -116,6 +118,9 @@ char				*ft_strshift(char **str, size_t n);
 char				*ft_strjoinch(char **str, char c);
 char				*ft_copyuntil(char *str, int c);
 char				*ft_strmjoin(char *s1, char *s2);
+char				*ft_strchr_safe(const char *s, int c);
+char				*ft_strdup_safe(const char *s1);
+
 
 
 #endif

@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/21 20:02:14 by amerlon-          #+#    #+#              #
-#    Updated: 2018/12/09 12:51:44 by amerlon-         ###   ########.fr        #
+#    Updated: 2018/12/11 19:36:16 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,8 @@ SRC = ft_strlen.c \
 		ft_strjoinch.c \
 		ft_copyuntil.c \
 		ft_strmjoin.c \
+		ft_strchr_safe.c \
+		ft_strdup_safe.c \
 
 OBJS = $(SRC:.c=.o)
 INCLUDES = libft.h

@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_strdup_safe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/01 19:01:28 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/11 17:34:31 by amerlon-         ###   ########.fr       */
+/*   Created: 2018/12/11 19:35:19 by amerlon-          #+#    #+#             */
+/*   Updated: 2018/12/11 19:35:35 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+char	*ft_strdup_safe(const char *s1)
 {
-	if (!new || !alst)
-		return ;
-	if (!(*alst))
-		*alst = new;
-	else
-	{
-		new->next = (*alst);
-		*alst = new;
-	}
+	int		i;
+	char	*res;
+
+	if (!s1)
+		return (NULL);
+	i = -1;
+	res = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	while (s1[++i])
+		res[i] = s1[i];
+	res[i] = '\0';
+	return (res);
 }

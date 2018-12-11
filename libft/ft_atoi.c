@@ -6,14 +6,13 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 12:39:30 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/06 11:53:10 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/11 17:33:36 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_atoi(const char *str)
 {
 	long long int	res;
-	long long int	prev;
 	int				sign;
 	int				i;
 
@@ -28,11 +27,9 @@ int	ft_atoi(const char *str)
 	str[i] == '+' || str[i] == '-' ? i++ : (0);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		prev = res;
-		res = res * 10 + str[i] - '0';
-		if ((prev > 0 && res < 0) || (prev < 0 && res > 0) ||
-			(prev % 10 != res / 10 % 10))
+		if (res != res * 10 / 10)
 			return (sign > 0 ? -1 : 0);
+		res = res * 10 + str[i] - '0';
 		i++;
 	}
 	return (sign * res);
