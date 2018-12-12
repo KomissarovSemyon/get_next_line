@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 12:24:33 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/13 01:35:40 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/13 01:54:57 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,7 @@ static int		ft_lstdelfile(t_list **head, int fd)
 		return (0);
 	now = *head;
 	prev = NULL;
-	if (now->content_size == (size_t)fd)
-	{
-		free(now->content);
-		*head = now->next;
-		free(now);
-	}
-	while ((now = now->next))
+	while (now)
 	{
 		if (now->content_size == (size_t)fd)
 		{
@@ -58,6 +52,7 @@ static int		ft_lstdelfile(t_list **head, int fd)
 			return (0);
 		}
 		prev = now;
+		now = now->next;
 	}
 	return (0);
 }
