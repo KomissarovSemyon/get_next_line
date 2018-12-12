@@ -1,0 +1,3 @@
+main.c
+libft/libft.a
+libft/*.o

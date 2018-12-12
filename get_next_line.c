@@ -6,12 +6,11 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 12:24:33 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/12 21:44:32 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/13 01:35:40 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 #include <fcntl.h>
 
 static t_list	*get_file(int fd, t_list **head)
@@ -20,11 +19,6 @@ static t_list	*get_file(int fd, t_list **head)
 
 	if (!head || fd < 0)
 		return (NULL);
-	if (!(*head))
-	{
-		*head = ft_lstnew("", fd);
-		return (*head);
-	}
 	now = *head;
 	while (now)
 	{
@@ -36,7 +30,7 @@ static t_list	*get_file(int fd, t_list **head)
 	if (!now)
 		return (NULL);
 	ft_lstadd(head, now);
-	return (*head);
+	return (now);
 }
 
 static int		ft_lstdelfile(t_list **head, int fd)
@@ -48,18 +42,22 @@ static int		ft_lstdelfile(t_list **head, int fd)
 		return (0);
 	now = *head;
 	prev = NULL;
-	while (now)
+	if (now->content_size == (size_t)fd)
+	{
+		free(now->content);
+		*head = now->next;
+		free(now);
+	}
+	while ((now = now->next))
 	{
 		if (now->content_size == (size_t)fd)
 		{
 			free(now->content);
-			if (prev)
-				prev->next = now->next;
+			prev ? (prev->next = now->next) : (0);
 			free(now);
 			return (0);
 		}
 		prev = now;
-		now = now->next;
 	}
 	return (0);
 }

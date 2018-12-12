@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 15:02:06 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/04 22:02:43 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/12 23:51:44 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_strdel(char **as)
 {
-	if (!as || !*as)
+	if (!as || !(*as))
 		return ;
 	free(*as);
 	*as = NULL;
