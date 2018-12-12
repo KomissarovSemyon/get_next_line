@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/21 20:02:14 by amerlon-          #+#    #+#              #
-#    Updated: 2018/12/11 19:36:16 by amerlon-         ###   ########.fr        #
+#    Updated: 2018/12/12 21:54:04 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,3 +128,5 @@ test2: re
 	make clean
 	gcc -g ../test/tests2.c libft.a -o test_output
 	./test_output
+
+.PHONY: all name clean fclean re norm
