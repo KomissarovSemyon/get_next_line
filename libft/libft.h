@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 23:21:11 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/11 19:35:58 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/12 21:45:05 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,5 @@ char				*ft_copyuntil(char *str, int c);
 char				*ft_strmjoin(char *s1, char *s2);
 char				*ft_strchr_safe(const char *s, int c);
 char				*ft_strdup_safe(const char *s1);
-
-
 
 #endif

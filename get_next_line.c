@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 12:24:33 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/11 22:22:40 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/12 21:44:32 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_list	*get_file(int fd, t_list **head)
 	now = *head;
 	while (now)
 	{
-		if (now->content_size == (size_t) fd)
+		if (now->content_size == (size_t)fd)
 			return (now);
 		now = now->next;
 	}
@@ -39,7 +39,7 @@ static t_list	*get_file(int fd, t_list **head)
 	return (*head);
 }
 
-static int	ft_lstdelfile(t_list **head, int fd)
+static int		ft_lstdelfile(t_list **head, int fd)
 {
 	t_list	*now;
 	t_list	*prev;
@@ -52,16 +52,37 @@ static int	ft_lstdelfile(t_list **head, int fd)
 	{
 		if (now->content_size == (size_t)fd)
 		{
-			//free(now->content);
-			//if (prev)
-			// 	prev->next = now->next;
-			// free(now);
+			free(now->content);
+			if (prev)
+				prev->next = now->next;
+			free(now);
 			return (0);
 		}
 		prev = now;
 		now = now->next;
 	}
 	return (0);
+}
+
+static int		make_return_value(t_list *file, t_list **head,
+									int len, char **line)
+{
+	if (ft_strchr_safe(file->content, '\n'))
+	{
+		ft_strdel(line);
+		*line = ft_copyuntil(file->content, '\n');
+		file->content = ft_strshift((char **)&(file->content),
+			ft_strchr(file->content, '\n') - (char *)(file->content) + 1);
+		return (1);
+	}
+	if (file->content && !len)
+	{
+		if (((char *)(file->content))[0] == '\0')
+			return (ft_lstdelfile(head, file->content_size));
+		ft_strdel((char **)&(file->content));
+		return (1);
+	}
+	return (ft_lstdelfile(head, file->content_size));
 }
 
 int				get_next_line(const int fd, char **line)
@@ -84,20 +105,5 @@ int				get_next_line(const int fd, char **line)
 		ft_strdel((char **)&(file->content));
 		file->content = ft_strdup_safe(*line);
 	}
-	if (ft_strchr_safe(file->content, '\n'))
-	{
-		ft_strdel(line);
-		*line = ft_copyuntil(file->content, '\n');
-		file->content = ft_strshift((char **)&(file->content),
-			ft_strchr(file->content, '\n') - (char *)(file->content) + 1);
-		return (1);
-	}
-	if (file->content && !len)
-	{
-		if (((char *)(file->content))[0] == '\0')
-			return (ft_lstdelfile(&head, fd));
-		ft_strdel((char **)&(file->content));
-		return (1);
-	}
-	return (ft_lstdelfile(&head, fd));
+	return (make_return_value(file, &head, len, line));
 }
