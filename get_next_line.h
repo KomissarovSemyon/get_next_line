@@ -6,13 +6,13 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 13:16:42 by amerlon-          #+#    #+#             */
-/*   Updated: 2018/12/12 22:41:11 by amerlon-         ###   ########.fr       */
+/*   Updated: 2018/12/15 13:59:42 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 32
+# define BUFF_SIZE 72
 
 # include <sys/types.h>
 # include <sys/uio.h>
